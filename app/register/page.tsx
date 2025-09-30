@@ -39,6 +39,13 @@ const Register = () => {
 		console.log('data', data);
 	};
 
+	const handleSignInWithGoogle = async () => {
+		const data = await authClient.signIn.social({
+			provider: 'google',
+		});
+		console.log('data', data);
+	};
+
 	return (
 		<>
 			<div className="text-4xl text-center">
@@ -70,6 +77,8 @@ const Register = () => {
 					className="border px-3 py-2 rounded"
 				/>
 				<button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">Register</button>
+				<h1 className="text-center">OR</h1>
+				<button type="button" onClick={handleSignInWithGoogle} className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">Continue with Google</button>
 			</form>
 		</>
 	);
