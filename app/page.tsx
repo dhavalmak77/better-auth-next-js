@@ -1,7 +1,7 @@
 export default function Home() {
 	return (
 		<div className="text-3xl">
-			Index Page
+			Please Login or Register to continue.
 		</div>
 	);
 }

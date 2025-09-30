@@ -1,14 +1,42 @@
 'use client';
 
 import { useState } from "react";
+import { authClient } from "../lib/auth-client";
+import { redirect } from "next/navigation";
 
 const Register = () => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const handleSubmit = async () => {
-		await {};
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const { data, error } = await authClient.signUp.email(
+			{
+				name: name,
+				email: email,
+				password: password,
+				// image: 'https://example.com/image.png',
+				callbackURL: '/protected',
+			},
+			{
+				onRequest: (ctx) => {
+					//show loading
+					console.log('making request');
+				},
+				onSuccess: (ctx) => {
+					//redirect to the dashboard or sign in page
+					redirect('/protected');
+				},
+				onError: (ctx) => {
+					// display the error message
+					console.log('Error on Auth Sign Up', ctx);
+				}
+			}
+		);
+
+		console.log('data', data);
 	};
 
 	return (
@@ -16,7 +44,7 @@ const Register = () => {
 			<div className="text-4xl text-center">
 				Register
 			</div>
-			<form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4 mx-auto w-lg">
+			<form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4 mx-auto w-md">
 				<input
 					type="text"
 					id="name"
